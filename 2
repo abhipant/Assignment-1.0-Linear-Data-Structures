@@ -1,0 +1,40 @@
+2. Reverse a Linked List in Groups of Given Size
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverse_in_groups(head, k):
+    def reverse_linked_list(head):
+        prev = None
+        current = head
+        while current:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        return prev
+
+    dummy = ListNode(0)
+    dummy.next = head
+    prev_group_tail = dummy
+
+    while True:
+        current_group_head = prev_group_tail.next
+        group_end = current_group_head
+
+        for i in range(k):
+            if group_end is None:
+                return dummy.next
+            group_end = group_end.next
+
+        next_group_head = group_end
+        group_end = group_end.next
+        next_group_head.next = None
+
+        reversed_head = reverse_linked_list(current_group_head)
+        prev_group_tail.next = reversed_head
+        current_group_head.next = group_end
+        prev_group_tail = current_group_head
+
