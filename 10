@@ -1,0 +1,54 @@
+10. Implement a queue using the stack data structure
+
+class QueueUsingStacks:
+    def __init__(self):
+        self.stack_enqueue = []  # Stack for enqueue operations
+        self.stack_dequeue = []  # Stack for dequeue operations
+
+    def enqueue(self, item):
+        # Push the item onto the enqueue stack
+        self.stack_enqueue.append(item)
+
+    def dequeue(self):
+        if not self.stack_enqueue and not self.stack_dequeue:
+            # Both stacks are empty, the queue is empty
+            return None
+        
+        if not self.stack_dequeue:
+            # Transfer items from enqueue stack to dequeue stack
+            while self.stack_enqueue:
+                self.stack_dequeue.append(self.stack_enqueue.pop())
+
+        # Pop the item from the dequeue stack (which contains elements in the right order)
+        return self.stack_dequeue.pop()
+
+    def is_empty(self):
+        return not self.stack_enqueue and not self.stack_dequeue
+
+    def size(self):
+        return len(self.stack_enqueue) + len(self.stack_dequeue)
+
+# Example usage:
+queue = QueueUsingStacks()
+queue.enqueue(1)
+queue.enqueue(2)
+queue.enqueue(3)
+
+print("Queue size:", queue.size())
+print("Dequeue:", queue.dequeue())  # Dequeue 1
+print("Dequeue:", queue.dequeue())  # Dequeue 2
+
+queue.enqueue(4)
+print("Queue size:", queue.size())
+
+print("Dequeue:", queue.dequeue())  # Dequeue 3
+print("Dequeue:", queue.dequeue())  # Dequeue 4
+print("Is Queue Empty?", queue.is_empty())
+
+
+In this code:
+
+* stack_enqueue is used for enqueue operations. When you enqueue an element, you push it onto this stack.
+* stack_dequeue is used for dequeue operations. When you dequeue an element, you pop it from this stack.
+* When you need to dequeue an element, if stack_dequeue is empty, you transfer elements from stack_enqueue to stack_dequeue to maintain the correct order.
+* The is_empty and size methods allow you to check the status of the queue.
