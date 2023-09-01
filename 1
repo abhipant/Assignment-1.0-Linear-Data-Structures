@@ -1,0 +1,30 @@
+1. Delete Elements in a Linked List Whose Sum is Equal to Zero
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def delete_zero_sum_sublists(head):
+    prefix_sum = 0
+    sum_map = {0: ListNode(0)}
+    dummy = ListNode(0)
+    dummy.next = head
+    current = dummy
+    
+    while current:
+        prefix_sum += current.val
+        if prefix_sum in sum_map:
+            # Remove nodes between sum_map[prefix_sum] and current
+            temp = sum_map[prefix_sum].next
+            temp_sum = prefix_sum + temp.val
+            while temp != current:
+                del sum_map[temp_sum]
+                temp = temp.next
+                temp_sum += temp.val
+            sum_map[prefix_sum].next = current.next
+        else:
+            sum_map[prefix_sum] = current
+        current = current.next
+    
+    return dummy.next
