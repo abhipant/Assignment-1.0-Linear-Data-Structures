@@ -1,0 +1,16 @@
+4. Count Pairs with Given Sum in an Array
+
+def count_pairs_with_sum(arr, target_sum):
+    num_dict = {}
+    count = 0
+    
+    for num in arr:
+        complement = target_sum - num
+        if complement in num_dict:
+            count += num_dict[complement]
+        if num in num_dict:
+            num_dict[num] += 1
+        else:
+            num_dict[num] = 1
+    
+    return count
